@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import {createUseStyles} from 'react-jss';
+import Timer from 'components/Timer';
+import TimerActions from 'components/TimerActions';
+import Laps from 'components/Laps';
+
+const useStyles = createUseStyles({
+  root: {
+
+  },
+  title: {
+    fontSize: 32,
+    marginBottom: 64,
+    textAlign: 'center',
+    fontWeight: 700,
+    marginTop: 32,
+  }
+});
 
 function App() {
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={classes.root}>
+      <h1 className={classes.title}>Stopwatch</h1>
+      <Timer />
+      <TimerActions />
+      <Laps />
     </div>
   );
 }

@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-jss": "^10.8.0",
     "react-scripts": "4.0.3",
     "redux": "^4.1.1",
     "redux-react-hook": "^4.0.3",
@@ -40,5 +41,4 @@
   "devDependencies": {
     "prettier": "^2.4.0"
   }
-
 }
