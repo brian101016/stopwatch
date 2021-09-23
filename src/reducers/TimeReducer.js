@@ -12,7 +12,7 @@ function reducer(state = initialState, action) {
                 pausedIntervals: 0,
                 start: Date.now(),
             };
-        case 'time/PAUSED':
+        case 'time/PAUSE':
             return {
                 ...state,
                 paused: Date.now(),

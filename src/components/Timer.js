@@ -10,24 +10,40 @@ const useStyles = createUseStyles({
     }
 });
 
-function addZeros(number = "", numberOfPlaces = 2) {
-    number = `${number}`;
+// function addZeros(number = "", numberOfPlaces = 2) {
+//     number = `${number}`;
 
-    let string = "";
-    for (let i = 0; i < (numberOfPlaces - number.length); i++) {
-        string += "0";
+//     let string = "";
+//     for (let i = 0; i < (numberOfPlaces - number.length); i++) {
+//         string += "0";
+//     }
+
+//     return ( string + number );
+// }
+
+function addZeros(number, numberOfPlaces) {
+    let numDigits = 1;
+    let div = Math.floor(number / 10);
+    while (div > 0) {
+      div = Math.floor(div / 10);
+      ++numDigits;
     }
-
-    return ( string + number );
+    if (numberOfPlaces - numDigits < 0) {
+      return `${number}`;
+    }
+    const zeroes = new Array(numberOfPlaces - numDigits).fill('0');
+    return `${zeroes.join('')}${number}`;
 }
 
-function createTimeString(start, pausedIntervals) {
+function createTimeString(start, pausedIntervals, paused) {
     let timeString;
 
     if(start == null) {
         timeString = '00:00:00.000';
     } else {
-        const current = Date.now() - pausedIntervals - start;
+        const now = paused != null ? paused : Date.now();
+
+        const current = now - pausedIntervals - start;
         const minutes = Math.floor((current / 1000 / 60) % 60);
         const seconds = Math.floor((current / 1000) % 60);
         const hours = Math.floor((current / 1000 / 3600) % 24);
@@ -35,12 +51,14 @@ function createTimeString(start, pausedIntervals) {
 
         timeString = `${addZeros(hours, 2)}:${addZeros(minutes, 2)}:${addZeros(seconds, 2)}.${addZeros(mil, 3)}`;
     }
+    return timeString;
 }
 
 function Timer() {
-    const {start, pausedIntervals} = useMappedState(state => ({
+    const {start, pausedIntervals, paused} = useMappedState(state => ({
         start: state.time.start,
         pausedIntervals: state.time.pausedIntervals,
+        paused: state.time.paused,
     }));
 
     const [time, setTime] = useState('00:00:00.000');
@@ -54,9 +72,7 @@ function Timer() {
         return function () {
             clearInterval(intervalId);
         };
-    }, [start, pausedIntervals]);
-
-    createTimeString(start, pausedIntervals);
+    }, [start, pausedIntervals, paused]);
 
     return <p className={classes.root}>{time}</p>;
 }
